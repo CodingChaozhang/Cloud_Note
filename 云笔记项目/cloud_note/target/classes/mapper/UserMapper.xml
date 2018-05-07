@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.lcz.cloud_note.dao.UserDao">
+	<select id="findByName" parameterType="string" resultType="com.lcz.cloud_note.entity.User">
+		select * from cn_user where cn_user_name=#{name}
+	</select>
+	<insert	id="save" parameterType="com.lcz.cloud_note.entity.User">
+		insert into 
+		cn_user(cn_user_id,cn_user_name,cn_user_password,cn_user_nick,cn_user_token) 
+		values(#{cn_user_id},#{cn_user_name},#{cn_user_password},#{cn_user_nick},#{cn_user_token})
+	</insert>
+	<update id="change" parameterType="com.lcz.cloud_note.entity.User">
+		update cn_user set cn_user_password=#{cn_user_password} where cn_user_id=#{cn_user_id}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+

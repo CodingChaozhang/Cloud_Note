@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.tarena.dao.ActivityMapper">
+
+	<select id="findAll"
+		resultType="com.tarena.entity.Activity">
+		select * from cn_activity
+	</select>
+	
+	<select id="findNoteActivityByPage"
+		parameterType="hashmap"
+		resultType="com.tarena.entity.NoteActivity">
+		select * from cn_note_activity
+		where cn_activity_id=#{activityId}
+		order by cn_note_activity_title
+		limit #{begin},#{pageSize}
+	</select>
+	
+	<select id="findNoteActivityById"
+		parameterType="string"
+		resultType="com.tarena.entity.NoteActivity">
+		select * from cn_note_activity
+		where cn_note_activity_id=#{id}
+	</select>
+	
+	<insert id="saveNoteActivity"
+		parameterType="com.tarena.entity.NoteActivity">
+		insert into cn_note_activity values(
+			#{cn_note_activity_id},
+			#{cn_activity_id},
+			#{cn_note_id},
+			#{cn_note_activity_up},
+			#{cn_note_activity_down},
+			#{cn_note_activity_title},
+			#{cn_note_activity_body}
+		)
+	</insert>
+	
+	<update id="updateNoteActivity"
+		parameterType="com.tarena.entity.NoteActivity">
+		update cn_note_activity set
+			cn_note_activity_up=#{cn_note_activity_up},
+			cn_note_activity_down=#{cn_note_activity_down},
+			cn_note_activity_title=#{cn_note_activity_title},
+			cn_note_activity_body=#{cn_note_activity_body}
+		where cn_note_activity_id=#{cn_note_activity_id}
+	</update>
+
+</mapper>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>活动列表</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="x-pjax-version" content="v173">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/favico-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/favico-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/favico-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="ico/favico-57-precomposed.png">
+        <link rel="shortcut icon" href="ico/favico.png">
+        <link rel="shortcut icon" href="ico/favico.ico">
+        <link rel="stylesheet" href="styles/icon.css"/>
+        <link rel="stylesheet" href="styles/main.css"/>
+        <link rel="stylesheet" href="styles/prettify.css"/>
+    </head>
+    <body class="animated fadeIn">
+        <header class="header">
+            <div class="header-brand">
+                <a data-pjax=".content-body" href="edit.html">
+                    <img class="brand-logo" src="images/dummy/8986f28e.stilearn-logo.png" alt="Stilearn Admin Sample Logo">
+                </a>
+            </div>
+            <div class="header-profile">
+                <div class="profile-nav">
+                    <span class="profile-username">Leo</span>
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="fa fa-angle-down"></span>
+                    </a>
+                    <ul class="dropdown-menu animated flipInX pull-right" role="menu">
+                        <li><a href="change_password.html"><i class="fa fa-user"></i> 修改密码</a></li>
+                        <li class="divider"></li>
+                        <li><a id="logout" href="#"><i class="fa fa-sign-out"></i> 退出登录</a></li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="hidden-xs header-menu pull-right">
+                <li>
+                    <a href="edit.html" title="我的笔记">我的笔记</a>
+                </li>
+            </ul>
+        </header>
+		<div class="row" style='padding:0;'>
+			<!-- 活动第三列 -->
+			<div class="col-sm-12" id='action_part'>
+				<aside class="side-right" id='side_right'>
+					<div class="module" data-toggle="niceScroll">
+						<div class="chat-contact">
+							<div class="contact-body clear_margin">
+								<h3 class="lead"><i class="fa fa-rss"></i> 近期活动</h3>
+								<div class="row">
+									<div class="col-sm-4" id='col_0'>
+										<!-- 
+										<div id="contentfeeds0" class="panel panel-animated panel-default animated fadeInUp" style="visibility: visible;"><div class="panel-body bordered-bottom"><div class="no-padding jumbotron bg-primary"><p class="lead"><a href="http://localhost:8088/noteweb/activity_detail.html#1">Java</a></p></div><p class="text-muted">Java技术征文</p><div class="text-muted"><small style="color:red;">活动结束时间:0</small></div></div></div>
+										<div id="contentfeeds3" class="panel panel-animated panel-default animated fadeInUp" style="visibility: visible;"><div class="panel-body bordered-bottom"><div class="no-padding jumbotron bg-warning"><p class="lead"><a href="http://localhost:8088/noteweb/activity_detail.html#4">IOS</a></p></div><p class="text-muted">IOS技术征文</p><div class="text-muted"><small style="color:red;">活动结束时间:0</small></div></div></div>
+										<div id="contentfeeds6" class="panel panel-animated panel-default animated fadeInUp" style="visibility: visible;"><div class="panel-body bordered-bottom"><div class="no-padding jumbotron bg-inverse"><p class="lead"><a href="http://localhost:8088/noteweb/activity_detail.html#7">嵌入式</a></p></div><p class="text-muted">嵌入式技术征文</p><div class="text-muted"><small style="color:red;">活动结束时间:0</small></div></div></div>
+										 -->
+									</div>
+									<div class="col-sm-4" id='col_1'>
+										<!-- 
+										<div id="contentfeeds1" class="panel panel-animated panel-default animated fadeInUp" style="visibility: visible;"><div class="panel-body bordered-bottom"><div class="no-padding jumbotron bg-danger"><p class="lead"><a href="http://localhost:8088/noteweb/activity_detail.html#2">.net</a></p></div><p class="text-muted">.net技术征文</p><div class="text-muted"><small style="color:red;">活动结束时间:0</small></div></div></div>
+										<div id="contentfeeds4" class="panel panel-animated panel-default animated fadeInUp" style="visibility: visible;"><div class="panel-body bordered-bottom"><div class="no-padding jumbotron bg-primary"><p class="lead"><a href="http://localhost:8088/noteweb/activity_detail.html#5">Andriod</a></p></div><p class="text-muted">Android技术征文</p><div class="text-muted"><small style="color:red;">活动结束时间:0</small></div></div></div>
+										<div id="contentfeeds7" class="panel panel-animated panel-default animated fadeInUp" style="visibility: visible;"><div class="panel-body bordered-bottom"><div class="no-padding jumbotron bg-warning"><p class="lead"><a href="http://localhost:8088/noteweb/activity_detail.html#8">PHP</a></p></div><p class="text-muted">PHP技术征文</p><div class="text-muted"><small style="color:red;">活动结束时间:0</small></div></div></div>
+										 -->
+									</div>
+									<div class="col-sm-4" id='col_2'>
+										<!-- 
+										<div id="contentfeeds2" class="panel panel-animated panel-default animated fadeInUp" style="visibility: visible;"><div class="panel-body bordered-bottom"><div class="no-padding jumbotron bg-inverse"><p class="lead"><a href="http://localhost:8088/noteweb/activity_detail.html#3">C++</a></p></div><p class="text-muted">C++技术征文</p><div class="text-muted"><small style="color:red;">活动结束时间:0</small></div></div></div>
+										<div id="contentfeeds5" class="panel panel-animated panel-default animated fadeInUp" style="visibility: visible;"><div class="panel-body bordered-bottom"><div class="no-padding jumbotron bg-danger"><p class="lead"><a href="http://localhost:8088/noteweb/activity_detail.html#6">网络营销</a></p></div><p class="text-muted">网络营销技术征文</p><div class="text-muted"><small style="color:red;">活动结束时间:0</small></div></div></div>
+										<div id="contentfeeds8" class="panel panel-animated panel-default animated fadeInUp" style="visibility: visible;"><div class="panel-body bordered-bottom"><div class="no-padding jumbotron bg-primary"><p class="lead"><a href="http://localhost:8088/noteweb/activity_detail.html#9">UID</a></p></div><p class="text-muted">UID技术征文</p><div class="text-muted"><small style="color:red;">活动结束时间:0</small></div></div></div>
+										 -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</aside>
+			</div>
+			<!-- 活动第三列 -->
+		</div>
+        <footer>
+            <p>&copy; 2014 Stilearning</p>
+        </footer>
+        <script type="text/javascript" src="scripts/common/jquery.min.js"></script>
+		<!-- Bootstrap框架JS -->
+		<script type="text/javascript" src="scripts/common/bootstrap.min.js"></script>   
+        <script type="text/javascript" src="scripts/common/theme-setup.js"></script>
+		<!-- 全局变量&&AJAX&&回调函数&&COOKIE -->
+		<script type="text/javascript" src="scripts/base.js"></script>
+		<script type="text/javascript" src="scripts/activity.js"></script>
+		<script type="text/javascript" src="scripts/login.js"></script>
+		<script type="text/javascript" src="scripts/cookie.js"></script>
+		<!-- 页面事件处理JS -->
+		<script type="text/javascript" src='scripts/local.js'></script>
+		<script type="text/javascript">
+			function get_dom(e){
+				return document.getElementById(e);
+			}
+			function set_height(){
+				var pc_height=window.innerHeight;
+				pc_height=pc_height-100;
+				get_dom('side_right').style.height=pc_height+'px';
+			}
+			set_height();
+			window.onresize=function(){
+				set_height();
+			}
+			window.onload=function(){
+				activity_list();
+			}
+		</script>
+    </body>		
+</html>

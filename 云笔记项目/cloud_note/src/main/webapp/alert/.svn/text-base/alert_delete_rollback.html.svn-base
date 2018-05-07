@@ -1,0 +1,19 @@
+﻿			<div class="modal fade in" id="modalBasic_10" tabindex="-1" role="dialog" aria-labelledby="modalBasicLabel" aria-hidden="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="modalBasicLabel_10">彻底删除笔记</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+                               <p> 该笔记将被<strong>彻底删除</strong>，是否继续？</p>
+                            </div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default cancle" data-dismiss="modal">取 消</button>
+							<button type="button" class="btn btn-primary sure">继 续</button>
+						</div>
+					</div>
+				</div>
+			</div>

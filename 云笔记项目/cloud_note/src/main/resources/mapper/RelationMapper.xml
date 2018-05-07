@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.lcz.cloud_note.dao.RelationDao">
+	<!-- 多个对象关联查询 -->
+	<!-- 使用两条sql语句加载数据 -->
+	<select id="findUserAndBooks" parameterType="String" resultMap="userMap1">
+		select *from cn_user where cn_user_id=#{userId}
+	</select>
+	<resultMap id="userMap1" type="com.lcz.cloud_note.entity.User" >
+		<id property="cn_user_id" column="cn_user_id"/>
+		<result property="cn_user_name" column="cn_user_name"/>
+		<!-- 指定Books属性  javaType:返回类型 ofType： -->
+		<collection property="books" javaType="java.util.List" ofType="com.lcz.cloud_note.entity.Book" select="findBooks" column="cn_user_id"></collection>
+	</resultMap>
+	<select id="findBooks" parameterType="String" resultType="com.lcz.cloud_note.entity.Book">
+		select * from cn_notebook where cn_user_id=#{userId}
+	</select>
+	
+	<!-- 使用一条sql语句加载数据  -->
+	<select id="findUserAndBooks1" parameterType="String" resultMap="userMap2">
+		select * from cn_user u join cn_notebook b on(u.cn_user_id=b.cn_user_id) where u.cn_user_id=#{userId}
+	</select>
+	<resultMap id="userMap2" type="com.lcz.cloud_note.entity.User" >
+		<!-- 注意：定义user字段的装载不能省略 -->
+		<id property="cn_user_id" column="cn_user_id"/>
+		<result property="cn_user_name" column="cn_user_name"/>
+		<result property="cn_user_password" column="cn_user_password"/>
+		<result property="cn_user_token" column="cn_user_token"/>
+		<result property="cn_user_nick" column="cn_user_nick"/>
+		<collection property="books" javaType="java.util.List" ofType="com.lcz.cloud_note.entity.Book" >
+			<id property="cn_notebook_id" column="cn_notebook_id"/>
+			<result property="cn_user_id" column="cn_user_id"/>
+			<result property="cn_notebook_type_id" column="cn_notebook_type_id"/>
+			<result property="cn_notebook_name" column="cn_notebook_name"/>
+			<result property="cn_notebook_desc" column="cn_notebook_desc"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 单个对象关联查询 -->
+	<!-- 两条sql语句加载book和关联的User -->
+	<select id="findBookAndUser" resultMap="bookMap">
+		select * from cn_notebook 
+	</select>
+	<resultMap id="bookMap" type="com.lcz.cloud_note.entity.Book">
+		<association property="user" javaType="com.lcz.cloud_note.entity.User" select="findUser" column="cn_user_id">
+		</association>
+	</resultMap>
+	<select id="findUser" parameterType="String" resultType="com.lcz.cloud_note.entity.User">
+		select * from cn_user where cn_user_id=#{id}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+

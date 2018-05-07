@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.tarena.dao.ShareMapper">
+	
+	<insert id="save"
+		parameterType="com.tarena.entity.Share">
+		insert into cn_share values(
+			#{cn_share_id},
+			#{cn_share_title},
+			#{cn_share_body},
+			#{cn_note_id}
+		)
+	</insert>
+	
+	<select id="findByPage"
+		parameterType="hashmap"
+		resultType="com.tarena.entity.Share">
+		select * from cn_share
+		where cn_share_title like CONCAT('%',#{searchKey},'%')
+		order by cn_share_title
+		limit #{begin},#{pageSize}
+	</select>
+	
+	<select id="findById"
+		parameterType="string"
+		resultType="com.tarena.entity.Share">
+		select * from cn_share
+		where cn_share_id=#{shareId}
+	</select>
+	
+</mapper>

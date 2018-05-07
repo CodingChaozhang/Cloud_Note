@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.tarena.dao.NoteMapper">
+
+	<select id="findByNoteBook"
+		parameterType="string"
+		resultType="com.tarena.entity.Note">
+		select * from cn_note
+		where cn_notebook_id=#{noteBookId}
+		order by cn_note_create_time desc
+	</select>
+	
+	<select id="findById"
+		parameterType="string"
+		resultType="com.tarena.entity.Note">
+		select * from cn_note
+		where cn_note_id=#{noteId}
+	</select>	
+	
+	<insert id="save"
+		parameterType="com.tarena.entity.Note">
+		insert into cn_note values(
+			#{cn_note_id},
+			#{cn_notebook_id},
+			#{cn_user_id},
+			#{cn_note_status_id},
+			#{cn_note_type_id},
+			#{cn_note_title},
+			#{cn_note_body},
+			#{cn_note_create_time},
+			#{cn_note_last_modify_time}
+		)
+	</insert>
+	
+	<update id="update"
+		parameterType="com.tarena.entity.Note">
+		update cn_note set 
+			cn_notebook_id=#{cn_notebook_id},
+			cn_user_id=#{cn_user_id},
+			cn_note_status_id=#{cn_note_status_id},
+			cn_note_type_id=#{cn_note_type_id},
+			cn_note_title=#{cn_note_title},
+			cn_note_body=#{cn_note_body},
+			cn_note_last_modify_time=#{cn_note_last_modify_time}
+		where cn_note_id=#{cn_note_id}
+	</update>
+	
+	<delete id="delete"
+		parameterType="string">
+		delete from cn_note where cn_note_id=#{noteId}
+	</delete>
+	
+</mapper>

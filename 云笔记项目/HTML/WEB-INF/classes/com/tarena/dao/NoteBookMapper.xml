@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.tarena.dao.NoteBookMapper">
+
+	<insert id="save"
+		parameterType="com.tarena.entity.NoteBook">
+		insert into cn_notebook values(
+			#{cn_notebook_id},
+			#{cn_user_id},
+			#{cn_notebook_type_id},
+			#{cn_notebook_name},
+			#{cn_notebook_desc},
+			#{cn_notebook_createtime}
+		)
+	</insert>
+	
+	<select id="findNormalNoteBook"
+		parameterType="string"
+		resultType="com.tarena.entity.NoteBook">
+		select * from cn_notebook
+		where cn_user_id=#{userId}
+		and cn_notebook_type_id in (
+			select cn_notebook_type_id from cn_notebook_type
+			where cn_notebook_type_code 
+			in ('normal')
+		)
+		order by cn_notebook_createtime desc
+	</select>
+	
+	<select id="findSpecialNoteBook"
+		parameterType="string"
+		resultType="com.tarena.entity.NoteBook">
+		select b.*,t.cn_notebook_type_code from cn_notebook b
+		inner join cn_notebook_type t 
+		on b.cn_notebook_type_id=t.cn_notebook_type_id
+		where b.cn_user_id=#{userId}
+		and t.cn_notebook_type_code 
+		in ('favorites','recycle','action','push')
+	</select>	
+	
+	<update id="update"
+		parameterType="com.tarena.entity.NoteBook">
+		update cn_notebook set
+			cn_user_id=#{cn_user_id},
+			cn_notebook_type_id=#{cn_notebook_type_id},
+			cn_notebook_name=#{cn_notebook_name},
+			cn_notebook_desc=#{cn_notebook_desc}
+		where cn_notebook_id=#{cn_notebook_id}
+	</update>
+	
+	<select id="findById"
+		parameterType="string"
+		resultType="com.tarena.entity.NoteBook">
+		select * from cn_notebook
+		where cn_notebook_id=#{noteBookId}
+	</select>
+	
+	<delete id="delete"
+		parameterType="string">
+		delete from cn_notebook
+		where cn_notebook_id=#{noteBookId}
+	</delete>
+	
+</mapper>

@@ -1,0 +1,15 @@
+//用户登录名
+var UserName = "cloudNoteUserName";
+//用户操作令牌
+var UserToken;
+//笔记本列表数组
+var NotBootArrayList;
+//当前笔记本的所有笔记列表数组
+var NoteListByNowNotBook;
+
+/**basePath **/
+var basePath = "http://localhost:8080/cloudnote/";
+
+var cookie_key = "tarena_cloud_note_user";
+
+var activity_key = "activity_key";

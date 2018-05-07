@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/SYSTEM/!svn/ver/5574/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert
+END
+alert_note.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/SYSTEM/!svn/ver/5150/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_note.html
+END
+alert_delete_like.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/SYSTEM/!svn/ver/5150/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_delete_like.html
+END
+alert_move.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/SYSTEM/!svn/ver/5574/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_move.html
+END
+alert_delete_note.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/SYSTEM/!svn/ver/5150/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_delete_note.html
+END
+alert_rename.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/SYSTEM/!svn/ver/5150/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_rename.html
+END
+alert_error.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/SYSTEM/!svn/ver/5561/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_error.html
+END
+alert_delete_rollback.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/SYSTEM/!svn/ver/5150/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_delete_rollback.html
+END
+alert_replay.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/SYSTEM/!svn/ver/5561/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_replay.html
+END
+alert_notebook.html
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/SYSTEM/!svn/ver/5150/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_notebook.html
+END
+alert_delete_notebook.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/SYSTEM/!svn/ver/5150/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_delete_notebook.html
+END
+alert_like.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/SYSTEM/!svn/ver/5150/TTS7.0/code/trunk/TTS7/noteweb/WebContent/alert/alert_like.html
+END

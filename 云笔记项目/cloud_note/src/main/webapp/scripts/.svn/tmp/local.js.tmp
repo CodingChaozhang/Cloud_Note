@@ -1,0 +1,486 @@
+﻿// JavaScript Document
+function formate_name(e){
+	e=e.replace(/</g,'&lt;');
+	e=e.replace(/>/g,'&gt;');
+	return e;
+}
+function yc(a){
+	a.hide();
+}
+//获取笔记本列表
+function get_nb_list(){
+	notebookNormalList(successFunc_nblist,errorFunc_nblist);
+}
+get_nb_list();
+//获取特殊笔记本列表
+function get_spnb_list(){
+	notebookSpecialList(successFunc_spnblist,errorFunc_spnblist);
+}
+get_spnb_list();
+$(function(){
+	//----新建笔记本
+	var dom,flag;
+	
+	$(document).on("click", "#add_notebook",
+    function(a) {
+		$('#can').load('./alert/alert_notebook.html',function(){
+			$('#input_notebook').focus();
+		});
+		$('.opacity_bg').show();
+    }),
+	//----新建笔记本
+	//----取消创建
+	$(document).on("click", ".close,.cancle",
+    function(a) {
+		$('#input_notebook,#input_note').val('');
+        $('.modal.fade.in').hide();
+        $('.opacity_bg').hide();
+    }),
+	//----取消创建
+	//----创建笔记本
+	$(document).on("click", "#modalBasic .btn.btn-primary.sure",
+    function(a) {
+		var get_name=$('#input_notebook').val();
+		get_name=formate_name(get_name);
+		var createNoteBean={
+				cnNotebookName:get_name
+		};
+		addnote(createNoteBean,successFunc_addnb,errorFunc_addnb);
+    }),
+	//----创建笔记本
+	//----删除笔记本
+	$(document).on("click", "#first_side_right .btn_delete",
+    function(a) {
+		$('#can').load('./alert/alert_delete_notebook.html');
+		$('.opacity_bg').show();
+		dom=$(this).parents('li');
+		//----确认删除
+		$(document).on('click','#modalBasic_6 .btn.btn-primary.sure',function(){
+
+			if($('#second_side_right ul').children().length >0){//判断是否有笔记，有的话禁止删除
+				alert("该笔记本下有笔记，不能删除");
+				return ;
+			}
+			
+			dom_data=dom.data('cnNotebookId');
+			$('.close,.cancle').trigger('click');
+			var delete_deletenb={
+					cnNotebookId:dom_data
+			};
+			deletenote(delete_deletenb,successFunc_deletenb,errorFunc_deletenb,dom);
+		});
+		//----确认删除
+		return false;
+    }),
+	//----删除笔记本
+	//----点击笔记本
+	$(document).on("click", "#pc_part_1 li",
+    function(a) {
+		$('#pc_part_2,#pc_part_3').show();
+		$('#pc_part_2 ul').empty();
+		$('#pc_part_4,#pc_part_5,#pc_part_6,#pc_part_7,#pc_part_8').hide();
+		$('#rollback_button,#like_button,#action_button').removeClass('clicked');
+		$(this).siblings('li').children('a').removeClass('checked');
+		$(this).children('a').addClass('checked');
+		//$('#second_side_right li a:first').trigger('click');
+		var nom_info=$(this).data('cnNotebookId');
+		$('#notebookId').data('cnNotebookId',nom_info);
+		getNormalNoteList(nom_info,successFunc_normalbl,errorFunc_normalbl);
+    }),
+	//----点击笔记本
+	//----双击笔记本
+	$(document).on("dblclick", "#pc_part_1 li:gt(0)",
+    function(a) {
+		$('#can').load('./alert/alert_rename.html',function(){
+			$('#input_notebook_rename').focus();
+		});
+		$('.opacity_bg').show();
+		flag=$(this).children('a').children('button').length;
+		dom=$(this);
+		$(document).on("click",'#modalBasic_4 .sure',function(){
+			var get_old_name=dom.text();
+			var get_nb_id=dom.data('cnNotebookId');
+			var get_nb_type=dom.data('cnNotebookTypeId');
+			var get_new_name=$('#input_notebook_rename').val();
+			var get_name=$('#input_notebook_rename').val()?get_new_name:get_old_name;
+			get_name=formate_name(get_name);
+			if(get_name!=get_old_name){
+				var updateNoteBean={
+						cnNotebookName:get_name,
+						cnNotebookId:get_nb_id,
+						cnUserId:getCookie("tarean_cloud_note_user"),
+						cnNotebookTypeId:get_nb_type
+				};
+				updateNoteBook(updateNoteBean,successFunc_renamenb,errorFunc_renamenb,dom);
+			}
+			$('.close,.cancle').trigger('click');
+		});
+    }),
+	//----双击笔记本
+	//----新建笔记
+	$(document).on("click", "#add_note",
+    function(a) {
+		$('#can').load('./alert/alert_note.html',function(){
+			$('#input_note').focus();
+		});
+		$('.opacity_bg').show();
+    }),
+	//----新建笔记
+	//----创建笔记
+	$(document).on("click", "#modalBasic_2 .btn.btn-primary.sure",
+    function(a) {
+		var get_name=$('#input_note').val()?$('#input_note').val():'新建笔记';
+		get_name=formate_name(get_name);
+		//$('#pc_part_2 .contacts-list li:first').before('<li class="online"><a href="#"><i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i> '+get_name+'<button type="button" class="btn btn-default btn-xs btn_position btn_slide_down"><i class="fa fa-chevron-down"></i></button></a><div class="note_menu" tabindex="-1"><dl><dt><button type="button" class="btn btn-default btn-xs btn_move" title="移动至..."><i class="fa fa-random"></i></button></dt><dt><button type="button" class="btn btn-default btn-xs btn_share" title="分享"><i class="fa fa-sitemap"></i></button></dt><dt><button type="button" class="btn btn-default btn-xs btn_delete" title="删除"><i class="fa fa-times"></i></button></dt></dl></div></li>');
+		$('.close,.cancle').trigger('click');
+		//alert($('#notebookId').data('cnNotebookId'));
+		var noteBookId=$('#notebookId').data('cnNotebookId');
+		var create_note_info={
+				cnNoteTitle:get_name,
+				cnNotebookId:noteBookId,
+				cnNoteBody:''
+		};
+		createNormalNote(create_note_info,successFunc_create_note,errorFunc_create_note,get_name);
+    }),
+	//----创建笔记
+    //----保存笔记
+    $(document).on("click","#save_note",function(){
+		var notebook_id=$('#notebookId').data('cnNotebookId');
+		var note_id=$(this).data('cnNoteId');
+		var note_title=$('#input_note_title').val();
+		note_title=formate_name(note_title);
+		var note_body=um.getContent();
+		$('#save_note').data('cnNoteId',note_id);
+		var update_note_info={
+				cnNoteId:note_id,
+				cnNotebookId:notebook_id,
+				cnNoteTitle:note_title,
+				cnNoteBody:note_body
+		};
+		updateNormalNote(update_note_info,successFunc_update_note,errorFunc_update_note,note_title);
+    }),
+    //----保存笔记
+	//----移动笔记
+	$(document).on("click", "#second_side_right .btn_move",
+    function(a) {
+
+		$('#can').load('./alert/alert_move.html',function(){
+			// 获取笔记本列表
+			setNoteBookToSelect("moveSelect");
+			$('#moveSelect').focus();
+
+		});
+		$('.opacity_bg').show();
+		dom=$(this).parents('li');
+		//----确认移动
+		$(document).on('click','#modalBasic_11 .btn.btn-primary.sure',function(){
+			var toBookId = $('#moveSelect').val();
+			var note = {cnNoteId:$('#save_note').data('cnNoteId')};
+			// 执行移动笔记
+			moveNote(note,toBookId,function(){
+				dom.remove();
+			},null);
+			$('.close,.cancle').trigger('click');
+		});
+		//----确认移动
+		return false;
+    }),
+	//----移动笔记
+	//----删除笔记
+	$(document).on("click", "#second_side_right .btn_delete",
+    function(a) {
+		$('#can').load('./alert/alert_delete_note.html');
+		$('.opacity_bg').show();
+		dom=$(this).parents('li');
+		//----确认删除
+		$(document).on('click','#modalBasic_7 .btn.btn-primary.sure',function(){
+			$('.close,.cancle').trigger('click');
+			//
+			var delNoteBean={
+					cnNoteId:dom.data('cnNoteId')
+			};
+			deleteNormalNote(delNoteBean,successFunc_delete_note,errorFunc_delete_note,dom);
+		});
+		//----确认删除
+		
+		return false;
+    }),
+	//----删除笔记
+	//----分享笔记
+	$(document).on("click", "#second_side_right .btn_share",
+    function(a) {
+		
+		$(this).fadeOut(600);
+		$('footer div').fadeIn(100);
+		setTimeout("$('footer div').fadeOut(600)",1000);
+		// 获得要分享的目标笔记本
+		var dom=$(this).parents('li');
+		// 执行分享请求
+		var note = {cnNoteId:$('#save_note').data('cnNoteId')};
+		createShareNote(note,function(result){
+			alert(result);
+		},function(result){
+			alert(result);
+		});
+		return false;
+    }),
+	//----分享笔记
+	//----取消收藏
+	$(document).on("click", "#pc_part_7 li .btn_delete",
+    function(a) {
+		$('#can').load('./alert/alert_delete_like.html');
+		$('.opacity_bg').show();
+		dom=$(this).parents('li');
+		//----确认取消
+		$(document).on('click','#modalBasic_9 .btn.btn-primary.sure',function(){
+			dom.remove();
+			$('.close,.cancle').trigger('click');
+		});
+		//----确认取消
+		return false;
+    }),
+	//----取消收藏
+	//----点击笔记
+	$(document).on("click", "#pc_part_2 li",
+    function(a) {
+		$(this).siblings('li').children('a').removeClass('checked');
+		$(this).children('a').addClass('checked');
+		var note_id=$(this).data('cnNoteId');
+		$('#save_note').data('cnNoteId',note_id);
+		//
+		var noteBean={
+				cnNoteId:note_id
+		};
+		getNoteDetail(noteBean,successFunc_get_note,errorFunc_get_note);
+    }),
+	//----点击笔记
+	//----回收站恢复按钮
+	$(document).on("click", "#four_side_right .btn_replay",
+    function(a) {
+		$('#can').load('./alert/alert_replay.html',function(){
+			$('#replaySelect').focus();
+		});
+		$('.opacity_bg').show();
+		dom=$(this).parents('li');
+		//----确认恢复
+		$(document).on('click','#modalBasic_3 .btn.btn-primary.sure',
+		function(){
+			dom.remove();
+			$('.close,.cancle').trigger('click');
+		});
+		//----确认恢复
+    }),
+	//----回收站恢复按钮
+    
+	//----回收站删除按钮
+	$(document).on("click", "#four_side_right .btn_delete",
+    function(a) {
+		$('#can').load('./alert/alert_delete_rollback.html');
+		$('.opacity_bg').show();
+		dom=$(this).parents('li');
+		//----确认删除
+		$(document).on('click','#modalBasic_10 .btn.sure',function(){
+			
+			var noteBean = {
+					cnNoteId:dom.data('cnNoteId')
+			};
+			deleteRecycleNote(noteBean,successFunc_recycle_delete_note,errorFunc_recycle_delete_note,dom);
+			
+			
+		});
+		//----确认删除
+		return false;
+    }),
+	//----回收站删除按钮
+    
+	//----点击回收站笔记
+	$(document).on("click", "#pc_part_4 li",
+    function(a) {
+		$(this).siblings('li').children('a').removeClass('checked');
+		$(this).children('a').addClass('checked');
+    }),
+	//----点击回收站笔记
+	//----点击收藏笔记
+	$(document).on("click", "#pc_part_7 li",
+    function(a) {
+		$(this).siblings('li').children('a').removeClass('checked');
+		$(this).children('a').addClass('checked');
+    }),
+	//----点击收藏笔记
+	//----点击参加活动笔记
+	$(document).on("click", "#pc_part_8 li",
+    function(a) {
+		$(this).siblings('li').children('a').removeClass('checked');
+		$(this).children('a').addClass('checked');
+    }),
+	//----点击参加活动笔记
+	//----点击收藏按钮
+	$(document).on("click", "#like_button",
+    function(a) {
+		$('#pc_part_2,#pc_part_3,#pc_part_4,#pc_part_6,#pc_part_8').hide();
+		$('#pc_part_7,#pc_part_5').show();
+		$('#first_side_right li a').removeClass('checked');
+		$('#rollback_button,#action_button').removeClass('clicked');
+		$(this).addClass('clicked');
+		$('#pc_part_7 ul').html("");//每次加载前先清空所有li
+		
+		var like_id=$('#like_button').data('cnNotebookId');
+		getNormalNoteList(like_id,successFunc_like_note,errorFunc_like_note);
+    }),
+	//----点击收藏按钮
+	//----点击回收站按钮
+	$(document).on("click", "#rollback_button",
+    function(a) {
+		$('#pc_part_2,#pc_part_3,#pc_part_6,#pc_part_7,#pc_part_8').hide();
+		$('#pc_part_4,#pc_part_5').show();
+		$('#first_side_right li a').removeClass('checked');
+		$('#like_button,#action_button').removeClass('clicked');
+		$(this).addClass('clicked');
+		$('#pc_part_4 ul').html("");//每次加载前先清空所有li
+		//
+		var recycle_id=$('#rollback_button').data('cnNotebookId');
+		getRecycleNoteList(recycle_id,successFunc_recycle_note,errorFunc_recycle_note);
+		//
+    }),
+	//----点击回收站按钮
+	//----点击活动按钮
+	$(document).on("click", "#action_button",
+    function(a) {
+		$('#pc_part_2,#pc_part_3,#pc_part_6,#pc_part_7,#pc_part_4').hide();
+		$('#pc_part_8,#pc_part_5').show();
+		$('#first_side_right li a').removeClass('checked');
+		$('#rollback_button,#like_button').removeClass('clicked');
+		$(this).addClass('clicked');
+    }),
+	//----点击活动按钮
+	//----点击笔记下拉按钮
+	$(document).on("click", ".btn_slide_down",
+    function(a) {
+		$(this).parents('li').children('.note_menu').addClass('note_menu_show').mouseleave(function(){
+			$(this).removeClass('note_menu_show');
+		});
+    }),
+	//----点击笔记下拉按钮
+	//----搜索笔记
+	$(document).on("keyup", "body",
+    function(a) {
+		if($('#search_note').is(':focus')&&event.keyCode==108){
+//		if(!$('#search_note').is(':focus')){
+			var m=$('#search_note').val();
+			var n=m.replace(/ /g,'');
+			var a=n.length;
+			if(a!=0){
+				$('#pc_part_2,#pc_part_3,#pc_part_4,#pc_part_7,#pc_part_8').hide();
+				$('#pc_part_6,#pc_part_5').show();
+				$('#first_side_right li a').removeClass('checked');
+				$('#like_button,#action_button,#rollback_button').removeClass('clicked');
+				$(this).addClass('clicked');
+				
+				//
+			}
+		}
+    }),
+	//----搜索笔记
+	//----点击搜索笔记
+	$(document).on("click", "#sixth_side_right li",
+    function(a) {
+		alert(999);
+		$(this).siblings('li').children('a').removeClass('checked');
+		$(this).children('a').addClass('checked');
+    }),
+	//----点击搜索笔记
+	//----收藏搜索笔记
+	$(document).on("click", "#pc_part_6 .btn_like",
+    function(a) {
+		dom=$(this);
+		$('#can').load('./alert/alert_like.html');
+		$('.opacity_bg').show();
+		//----确认收藏
+		$(document).on('click','#modalBasic_5 .btn.btn-primary.sure',function(){
+			dom.remove();
+			$('.close,.cancle').trigger('click');
+		});
+		return false;
+		//----确认收藏
+    }),
+	//----收藏搜索笔记
+	//----更多搜索笔记
+	$(document).on("click", "#more_note",
+    function(a) {
+		alert('local.js---line:301');
+    }),
+	//----更多搜索笔记
+	//----点击笔记本(活动页面)
+	$(document).on("click", "#action_part_1 li",
+    function(a) {
+		$('#rollback_button').removeClass('clicked');
+		$(this).siblings('li').children('a').removeClass('checked');
+		$(this).children('a').addClass('checked');
+    }),
+	//----点击笔记本(活动页面)
+	//----点击收藏（活动页面）
+	$(document).on("click", "#first_action .btn_like",
+    function(a) {
+		$('#modalBasic_4,.opacity_bg').show();
+		dom=$(this);
+		//----确认收藏
+		$('#modalBasic_4 .btn.btn-primary.sure').click(function(){
+			dom.remove();
+			$('.close,.cancle').trigger('click');
+		});
+		return false;
+		//----确认收藏
+    }),
+	//----点击收藏（活动页面）
+	//----顶笔记（活动页面）
+	$(document).on("click", "#first_action .btn_up",
+    function(a) {
+		$(this).remove();
+		return false;
+    }),
+	//----顶笔记（活动页面）
+	//----踩笔记（活动页面）
+	$(document).on("click", "#first_action .btn_down",
+    function(a) {
+		$(this).remove();
+		return false;
+    }),
+	//----踩笔记（活动页面）
+	//----参加活动（活动页面）
+	$(document).on("click", "#join_action",
+    function(a) {
+		$('#modalBasic_5,.opacity_bg').show();
+    }),
+	//----参加活动（活动页面）
+	//----选择参加活动笔记（活动页面）
+	//----点击笔记本
+	$(document).on("click", "#select_notebook li",
+    function(a) {
+		$(this).siblings('li').children('a').removeClass('checked');
+		$(this).children('a').addClass('checked');
+    }),
+	//----点击笔记本
+	//----点击笔记
+	$(document).on("click", "#select_note li",
+    function(a) {
+		$(this).siblings('li').children('a').removeClass('checked');
+		$(this).children('a').addClass('checked');
+    });
+	//----点击笔记
+	//----选择参加活动笔记（活动页面）
+	//----确认选择的笔记（活动页面）
+	$(document).on("click", "#modalBasic_5 .btn.btn-primary.sure",
+    function(a) {
+		var get_notename=$('#select_note li a.checked').text();
+		//alert(get_notename);
+		$('#first_action ul').prepend('<li class="online"><a href="#"><i class="fa fa-file-text-o" rel="tooltip-bottom"></i>'+get_notename+'<div class="time">作者:<span>彭川</span><span>&nbsp&nbsp&nbsp日期:2010-12-09</span></div></a></li>');
+		$('.close,.cancle').trigger('click');
+    });
+	//----确认选择的笔记（活动页面）	
+	//----更多活动笔记
+	$(document).on("click", "#more_activity_note",
+    function(a) {
+		alert('local.js---line:374');
+    });
+	//----更多活动笔记笔记	
+});

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.lcz.cloud_note.dao.NoteDao">
+	<select id="findByBookId" parameterType="string" resultType="Map">
+		select cn_note_id,cn_note_title from cn_note where cn_notebook_id=#{bookId} and cn_note_status_id='1' 
+	</select>
+	<select id="findByNoteId" parameterType="String" resultType="com.lcz.cloud_note.entity.Note">
+		select *from cn_note where cn_note_id=#{noteId}
+	</select>
+	<update id="updateNote" parameterType="com.lcz.cloud_note.entity.Note">
+		update cn_note set cn_note_title=#{cn_note_title},
+		cn_note_body=#{cn_note_body},
+		cn_note_last_modify_time=#{cn_note_last_modify_time}
+		where cn_note_id=#{cn_note_id}
+	</update>
+	<insert id="save" parameterType="com.lcz.cloud_note.entity.Note">
+		insert into cn_note(
+		cn_note_id,
+		cn_notebook_id,
+		cn_user_id,
+		cn_note_status_id,
+		cn_note_type_id,
+		cn_note_title,
+		cn_note_body,
+		cn_note_create_time,
+		cn_note_last_modify_time) 
+		values(
+		#{cn_note_id},
+		#{cn_notebook_id},
+		#{cn_user_id},
+		#{cn_note_status_id},
+		#{cn_note_type_id},
+		#{cn_note_title},
+		#{cn_note_body},
+		#{cn_note_create_time},
+		#{cn_note_last_modify_time}
+		)
+ 	</insert>
+ 	
+ 	<!-- 动态更新 -->
+	<update id="dynamicUpdate" parameterType="com.lcz.cloud_note.entity.Note">
+		update cn_note
+		<set>
+			<if test="cn_note_type_id!=null">
+		 		cn_note_type_id=#{cn_note_type_id},
+			</if>
+			<if test="cn_note_status_id!=null">
+				cn_note_status_id=#{cn_note_status_id},
+			</if>
+			<if test="cn_notebook_id!=null">
+				cn_notebook_id=#{cn_notebook_id},
+			</if>
+			<if test="cn_note_title!=null">
+				cn_note_title=#{cn_note_title},
+			</if>
+			<if test="cn_note_body!=null">
+				cn_note_body=#{cn_note_body},
+			</if>
+			<if test="cn_note_last_modify_time!=null">
+				cn_note_last_modify_time=#{cn_note_last_modify_time}
+			</if>
+		</set>
+		where cn_note_id=#{cn_note_id}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+

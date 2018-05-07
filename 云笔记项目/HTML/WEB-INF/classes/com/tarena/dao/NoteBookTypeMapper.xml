@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.tarena.dao.NoteBookTypeMapper">
+
+	<select id="findSpecialType"
+		resultType="com.tarena.entity.NoteBookType">
+		select * from cn_notebook_type 
+		where cn_notebook_type_code in ('favorites','recycle','action','push')
+	</select>
+	
+	<select id="findAllType"
+		resultType="com.tarena.entity.NoteBookType">
+		select * from cn_notebook_type 
+	</select>
+	
+</mapper>
